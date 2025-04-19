@@ -1,0 +1,44 @@
+name: Trigger auto deployment for rcbinator
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ main ]
+    paths:
+    - '**'
+    - '.github/workflows/rcbinator-AutoDeployTrigger-605b1eff-8dda-405f-b9af-50ee0bd0bcb1.yml'
+
+  # Allow manual trigger 
+  workflow_dispatch:
+      
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.RCBINATOR_AZURE_CREDENTIALS }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          appSourcePath: ${{ github.workspace }}/01-docker/web-app
+          _dockerfilePathKey_: _dockerfilePath_
+          registryUrl: rcbinator.azurecr.io
+          registryUsername: ${{ secrets.RCBINATOR_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.RCBINATOR_REGISTRY_PASSWORD }}
+          containerAppName: rcbinator
+          resourceGroup: just-for-fun
+          imageToBuild: rcbinator.azurecr.io/rcbinator:${{ github.sha }}
+          
+            
+
+     
+
