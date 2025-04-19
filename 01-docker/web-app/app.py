@@ -80,7 +80,7 @@ if "viz_option" not in st.session_state:
 
 
 st.set_page_config(
-        page_title="RCBinator",
+        page_title="SRHinator",
     page_icon="🏆",
     layout="wide",
     )
@@ -92,7 +92,7 @@ async def main():
     # Title with animation
     st.markdown("""
     <div class="title-container">
-        <h1>RCBinator: Ee sala cup namde 🔥🏏</h1>
+        <h1>SRHinator: This one is for Orange Army 🔥🏏</h1>
         <div class="cricket-ball"></div>
     </div>
     """, unsafe_allow_html=True)
